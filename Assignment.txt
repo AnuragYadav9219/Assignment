@@ -1,0 +1,104 @@
+Overview
+This Python script uses Selenium to scrape product details from Amazon's
+"Best Sellers" section. It allows you to log into Amazon with your credentials, 
+navigate through categories, pull product data, and save it in a CSV or JSON
+file for later analysis.
+
+Functionality
+1. setup_driver()
+This function sets up the Selenium WebDriver for automation.
+Inputs: None (but requires the CHROMEDRIVER_PATH environment variable).
+Outputs: Returns a WebDriver instance.
+Error Handling: If the driver path is wrong, it raises a FileNotFoundError, 
+and if the WebDriver fails to initialize, a RuntimeError is raised.
+
+2. authenticate_amazon(driver, email, password)
+Logs into Amazon using your account credentials.
+Inputs:
+driver: The Selenium WebDriver instance.
+email: Your Amazon account email.
+password: Your Amazon account password.
+Outputs: None.
+Error Handling: If the login fails (e.g., wrong credentials or timeout), 
+it exits the script.
+
+3. scrape_category(driver, category_url)
+Scrapes product data from a given Amazon category page.
+Inputs:
+driver: The Selenium WebDriver instance.
+category_url: URL of the Amazon category you want to scrape.
+Outputs: A list of dictionaries containing the product details.
+Data Extracted:
+Product Name
+Product Price
+Discount (if applicable)
+Rating
+Product Images
+Error Handling: The script keeps scraping even if some elements are missing 
+or if there are minor timeouts.
+
+4. save_data(data, file_format, filename)
+Saves the scraped data to a file.
+Inputs:
+data: List of product data dictionaries.
+file_format: Either csv or json to specify the format.
+filename: The name of the file to save the data in.
+Outputs: The data is written to the specified file.
+Error Handling: If there's no data to save, it will print a message.
+
+5. main()
+This is the main function that drives the scraping process.
+Steps:
+Initializes the WebDriver.
+Logs into Amazon.
+Defines a list of category URLs to scrape.
+Scrapes data from each category.
+Saves the results to a CSV file.
+Ensures that the WebDriver quits cleanly.
+Error Handling: Catches FileNotFoundError and RuntimeError, and handles 
+issues with quitting the WebDriver.
+
+
+Setup Instructions
+Prerequisites:
+Python 3.x installed.
+Google Chrome browser installed.
+Selenium library installed (pip install selenium).
+ChromeDriver matching your Chrome version.
+Environment Variables: Set the following environment variables:
+
+CHROMEDRIVER_PATH: Path to your ChromeDriver executable.
+AMAZON_EMAIL: Your Amazon email.
+AMAZON_PASSWORD: Your Amazon password.
+Example for setting up:
+bash
+export CHROMEDRIVER_PATH="/path/to/chromedriver"
+export AMAZON_EMAIL="your_email@example.com"
+export AMAZON_PASSWORD="your_password"
+Install Dependencies:
+pip install selenium
+Run the Script: Execute the script with:
+python main.py
+Usage Tips
+Modify Category URLs: You can change the category_urls list inside the main
+function to include the Amazon categories you want to scrape.
+
+Choose Output Format: You can select the output format (either csv or json)
+when calling save_data.
+
+Extracted Data: The script will collect information like:
+Product Name
+Product Price
+Rating
+Product Images
+Discounts (if applicable)
+Output Files:
+
+CSV: The data is saved in amazon_best_sellers.csv.
+JSON: The data is saved in amazon_best_sellers.json.
+Error Handling
+Login Issues: Make sure your credentials are correct and your network connection is stable.
+
+Chromedriver Issues: Ensure the CHROMEDRIVER_PATH points to the correct version of 
+ChromeDriver that matches your installed Chrome version.
+No Data Extracted: Double-check the category URLs and ensure that Amazon's page structure hasn't changed (as this can affect data extraction).
